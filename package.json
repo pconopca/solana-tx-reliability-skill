@@ -1,0 +1,20 @@
+{
+  "name": "solana-tx-reliability-skill",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Runnable helpers for the solana-tx-reliability agent skill: a robust send (golden path) and a transaction diagnoser.",
+  "license": "MIT",
+  "scripts": {
+    "tx-doctor": "tsx scripts/tx-doctor.ts",
+    "send-robust": "tsx scripts/send-robust.ts"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.98.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}
