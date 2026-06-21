@@ -74,6 +74,23 @@ npx tsx scripts/send-robust.ts               # demo a robust self-transfer
 The scripts never touch mainnet funds unless you explicitly set a mainnet RPC
 and keypair.
 
+## Verified on-chain (tested, not theoretical)
+
+- `tx-doctor.ts` was run against live **mainnet** transactions — it correctly
+  decodes status, fee, compute-units consumed, and program logs.
+- `send-robust.ts` was run on **devnet** end to end (build → simulate → size the
+  CU limit → price the priority fee → send with self-rebroadcast → confirm),
+  landing a real transaction:
+  [`2s3ovhgC…M4KS4`](https://explorer.solana.com/tx/2s3ovhgCG3qY55o8t9RJywCheLtYB4ACfJV2gv1RN64SzcoAk4bxAkFGHoeh34r4LvWMRtxSLmVoq1fDxLCM4KS4?cluster=devnet)
+  (450 CU used vs a 496 CU limit — the right-sizing working as intended).
+
+While testing, `send-robust` surfaced a subtle, real bug: the compute-unit
+*probe* didn't include the budget instructions, so it under-counted CUs and the
+tighter final transaction failed with `Computational budget exceeded`. The fix
+is in the code, and the lesson is now encoded in
+[`skill/compute-budget.md`](skill/compute-budget.md) — exactly the kind of
+current, hard-won detail this skill exists to carry.
+
 ## 2026 stack
 
 Built and verified against the 2026 Solana stack: `@solana/kit` (the maintained
